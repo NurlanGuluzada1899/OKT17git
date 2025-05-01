@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.one {
+    background-color: green;
+    padding: 40px;
+    font-size: 30px;
+    list-style-type: none;
+    display: flex;
+}
+
+.one li {
+    color: white;
+    margin: 10px;
+}
+.one a{
+    color: white;
+    text-decoration: none;
+}

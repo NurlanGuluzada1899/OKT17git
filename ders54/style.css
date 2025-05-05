@@ -1,0 +1,31 @@
+.headrs{
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 0 5px 10px 0 rgba(50, 50, 50, 0.06);
+    padding: 10px;
+}
+.logo{
+    width: auto;
+    height: 40px;
+}
+.one{
+    display: flex;
+    list-style-type: none;
+    justify-content: space-around;
+}
+.one li{
+    padding: 5px 15px;
+    text-transform: uppercase;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.one li :hover {
+    color: #03c4eb;
+}
+
+    
+
+    

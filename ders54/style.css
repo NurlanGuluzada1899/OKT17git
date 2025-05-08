@@ -26,6 +26,22 @@
     color: #03c4eb;
 }
 
-    
+  
+.two{
+    text-align: center;
+}
+.fife{
+    text-align: center;
+}
+.six{
+    text-align: center;
+    background-color: black;
+    padding: 50px;
+    color: white;
+}
+.seven{
+    display: flex;
+    justify-content: space-around;
+}
 
     

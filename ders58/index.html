@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+          table,
+        th,
+        td {
+            border: 10px solid black;
+            font-size: 40px;
+            border-collapse: collapse;
+            padding: 10px;
+            text-align: center;
+            border-width: 5px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+    <tr>
+        <th>Məlumat</th>
+        <th>İnput tipi</th>
+        <th>Atributlar</th>
+    </tr>
+<tr>
+    <td>Ad</td>
+    <td>Text</td>
+    <td>required, maxlenght="20"</td>
+</tr>
+<tr>
+    <td>Şifrə</td>
+    <td>password</td>
+    <td>required, minlength="6"</td>
+</tr>
+<tr>
+    <td>Email</td>
+    <td>email</td>
+    <td>required, placeholder="nümunə@example.com"</td>
+</tr>
+<tr>
+    <td>Telefon</td>
+    <td>tel</td>
+    <td>pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}", placeholder="050-123-4567"</td>
+</tr>
+<tr>
+    <td>Yaş</td>
+    <td>number</td>
+    <td>min="1", max="120"</td>
+</tr>
+<tr>
+    <td>Doğum tarixi</td>
+    <td>date</td>
+    <td>required</td>
+</tr>
+<tr>
+    <td>Rəng seçimi</td>
+    <td>color</td>
+    <td></td>
+</tr>
+<tr>
+    <td>fayl yüklə</td>
+    <td>fail</td>
+    <td>accept=".jpg,.png"</td>
+</tr>
+<tr>
+    <td>Raziyam</td>
+    <td>checkbox</td>
+    <td>required</td>
+</tr>
+<tr>
+    <td>cinsiyyət</td>
+    <td>radio</td>
+    <td>Seçim:kişi,qadin</td>
+</tr>
+<tr>
+    <td>gonder duymesi</td>
+    <td>sumbit</td>
+    <td></td>
+</tr>
+</table>
+</body>
+</html>

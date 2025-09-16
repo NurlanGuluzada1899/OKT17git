@@ -1,24 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <h2>efsane</h2>
-    <style>
-        h2
-        {
-               background-color: red
-        }
-        </style>
 </head>
-
 <body>
-    <p> </abbr>title="bmw"></abbr>
-    <blockquote>mercedec</blockquote> <q>bugatti</q> <a href="ferrari"></a> <cite>nissan</cite> <bdo dir="pagani"></bdo>
-    <p>
-<h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam asperiores cum accusantium totam fugit fuga error facilis, neque velit obcaecati unde, sequi iusto modi tempora, ducimus rem deserunt. Corporis, voluptas!</h1>
-/body>
+    <script>
+      
+        function logGreeting(name) {
+    console.log(name + " salam");
+}
+logGreeting("Nurlan");
 
+
+
+
+let kvadrat = Math.pow(8,2)
+console.log(kvadrat)
+
+
+
+
+function sum(a, b) {
+  return a + b;
+}
+console.log(sum(5, 7)); 
+
+
+function maxOfThree(a, b, c) {
+  return Math.max(a, b, c);
+}
+console.log(maxOfThree(11, 9, 15)); 
+
+
+
+function evenOrOdd(number) {
+  if (number % 2 === 0) {
+    return "cüt";
+  } else {
+    return "tək";
+  }
+}
+console.log(evenOrOdd(35)); 
+console.log(evenOrOdd(74)); 
+
+
+
+
+
+
+function factorial(n) {
+  let result = 1;
+  for (let i = 1; i <= n; i++) {
+    result *= i;
+  }
+  return result;
+}
+console.log(factorial(5)); 
+
+
+
+function boyuk(text) {
+  let words = text.split(" ");
+  for (let i = 0; i < words.length; i++) {
+    let word = words[i];
+    if (word.length > 0) {
+      words[i] = word[0].toUpperCase() + word.slice(1);
+    }
+  }
+  return words.join(" ");
+}
+console.log(boyuk("salam dunya necesen")); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let randomNumber = Math.floor(Math.random() * 10) + 1;
+console.log(randomNumber);
+   </script>
+</body>
 </html>

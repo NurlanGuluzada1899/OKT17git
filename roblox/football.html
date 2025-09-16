@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>İki Oyunçu Futbol Oyunu</title>
+<style>
+    body { text-align: center; font-family: sans-serif; background: #1a1a1a; color: #fff; }
+    canvas { background: #4caf50; display: block; margin: 20px auto; border: 3px solid #fff; }
+    #scoreboard { display: flex; justify-content: space-around; font-size: 18px; margin-bottom: 10px; }
+    #result { font-size: 36px; color: yellow; margin-top: 10px; display: none; }
+</style>
+</head>
+<body>
+<h1>İki Oyunçu Futbol Oyunu</h1>
+<div id="scoreboard">
+    <div>
+        <div>Senan</div>
+        <div id="score1">Score: 0</div>
+    </div>
+    <div>
+        <div>Nurlan</div>
+        <div id="score2">Score: 0</div>
+    </div>
+</div>
+<canvas id="gameCanvas" width="800" height="400"></canvas>
+<div id="result"></div>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+// Players
+const player1 = { x: 100, y: 300, width: 50, height: 50, color: "red", speed: 10, score: 0 };
+const player2 = { x: 600, y: 300, width: 50, height: 50, color: "blue", speed: 10, score: 0 };
+
+// Goals
+const goalHeight = 30;
+const goal1 = { x: 0, y: canvas.height - goalHeight, width: canvas.width/2 - 5, height: goalHeight, color: "white" };
+const goal2 = { x: canvas.width/2 + 5, y: canvas.height - goalHeight, width: canvas.width/2 -5, height: goalHeight, color: "white" };
+
+// Middle line
+const middleLine = { x: canvas.width/2 -2, y: 0, width: 4, height: canvas.height, color: "black" };
+
+// Balls arrays
+let balls1 = [];
+let balls2 = [];
+
+// Ball speed
+const speed = 10;
+
+// Create new ball
+function createBall1() {
+    balls1.push({ x: Math.random()*(canvas.width/2 - 30) + 15, y: 0, radius: 15, color: "yellow", dy: speed });
+}
+function createBall2() {
+    balls2.push({ x: Math.random()*(canvas.width/2 - 30) + canvas.width/2 +5, y:0, radius: 15, color: "orange", dy: speed });
+}
+
+// Create initial balls
+createBall1();
+createBall2();
+
+// Keypress
+const keys = {};
+document.addEventListener("keydown", e => { keys[e.key] = true; });
+document.addEventListener("keyup", e => { keys[e.key] = false; });
+
+// Draw rectangle
+function drawRect(obj){
+    ctx.fillStyle = obj.color;
+    ctx.fillRect(obj.x,obj.y,obj.width,obj.height);
+}
+
+// Draw circle
+function drawBall(ball){
+    ctx.fillStyle = ball.color;
+    ctx.beginPath();
+    ctx.arc(ball.x,ball.y,ball.radius,0,Math.PI*2);
+    ctx.fill();
+    ctx.closePath();
+}
+
+// Collision
+function rectCircleColliding(rect, circle){
+    const distX = Math.abs(circle.x - rect.x-rect.width/2);
+    const distY = Math.abs(circle.y - rect.y-rect.height/2);
+    if(distX > (rect.width/2 + circle.radius)) return false;
+    if(distY > (rect.height/2 + circle.radius)) return false;
+    if(distX <= (rect.width/2)) return true;
+    if(distY <= (rect.height/2)) return true;
+    const dx=distX-rect.width/2;
+    const dy=distY-rect.height/2;
+    return (dx*dx+dy*dy<=(circle.radius*circle.radius));
+}
+
+// Update
+let gamePaused = false;
+function update(){
+    if(gamePaused) return;
+
+    // Senan movement (A/D)
+    if(keys["a"] && player1.x>0) player1.x -= player1.speed;
+    if(keys["d"] && player1.x+player1.width<canvas.width/2 -5) player1.x += player1.speed;
+
+    // Nurlan movement (ArrowLeft/ArrowRight)
+    if(keys["ArrowLeft"] && player2.x>canvas.width/2 +5) player2.x -= player2.speed;
+    if(keys["ArrowRight"] && player2.x+player2.width<canvas.width) player2.x += player2.speed;
+
+    // Balls movement Player1
+    balls1.forEach((ball, index) => {
+        ball.y += ball.dy;
+        if(rectCircleColliding(player1, ball)) ball.dy = -ball.dy;
+        if(ball.y + ball.radius > goal1.y){
+            player1.score +=5;
+            document.getElementById("score1").innerText = "Score: "+player1.score;
+            balls1.splice(index,1);
+        }
+        if(ball.y - ball.radius > canvas.height){ 
+            balls1.splice(index,1);
+        }
+    });
+
+    // Balls movement Player2
+    balls2.forEach((ball, index) => {
+        ball.y += ball.dy;
+        if(rectCircleColliding(player2, ball)) ball.dy = -ball.dy;
+        if(ball.y + ball.radius > goal2.y){
+            player2.score +=5;
+            document.getElementById("score2").innerText = "Score: "+player2.score;
+            balls2.splice(index,1);
+        }
+        if(ball.y - ball.radius > canvas.height){ 
+            balls2.splice(index,1);
+        }
+    });
+
+    // Check 100 xal
+    if(player1.score >=100){ endGame("Senan reached 100 points! You lose!"); }
+    if(player2.score >=100){ endGame("Nurlan reached 100 points! You lose!"); }
+}
+
+// Draw everything
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    drawRect(goal1);
+    drawRect(goal2);
+    drawRect(middleLine);
+    drawRect(player1);
+    drawRect(player2);
+    balls1.forEach(drawBall);
+    balls2.forEach(drawBall);
+}
+
+// End game
+function endGame(text){
+    document.getElementById("result").innerText = text;
+    document.getElementById("result").style.display = "block";
+    gamePaused = true;
+    setTimeout(resetGame,10000); // 10 saniyə sonra yeni oyun
+}
+
+// Reset game
+function resetGame(){
+    player1.score = 0;
+    player2.score = 0;
+    document.getElementById("score1").innerText = "Score: 0";
+    document.getElementById("score2").innerText = "Score: 0";
+    document.getElementById("result").style.display = "none";
+    balls1 = [];
+    balls2 = [];
+    createBall1();
+    createBall2();
+    gamePaused = false;
+}
+
+// Create new balls every 1 second
+setInterval(() => { if(!gamePaused) createBall1(); }, 1000);
+setInterval(() => { if(!gamePaused) createBall2(); }, 1000);
+
+// Game loop
+function loop(){
+    update();
+    draw();
+    requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+</body>
+</html>

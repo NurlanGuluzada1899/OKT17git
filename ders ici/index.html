@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .one ::after{
+            content: "NURLAN"
+        }
+        .one ::before{
+            content: "quluzade";
+            content: url("https://i.pinimg.com/originals/55/cc/1d/55cc1d26aac5420a8d705f633a379e84.gif");
+        }
+        .one ::first-line{
+            color: blue;
+        }
+        .one ::first-letter{
+        color: red;
+        font-variant: small-caps;
+        font-size: 30px;
+        }
+        .one::selection{
+            color: red;
+            background-color: blue;
+        }
+        [class^=tes]{
+            color: aqua;
+        }
+       [class*=t]{
+        background-color: yellow;
+       }
+       
+    </style>
+</head>
+<body>
+    <div class="one">
+    <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores reprehenderit <br>
+        consequuntur dolorem fugit corrupti quis perferendis accusantium expedita <br>
+        aspernatur unde culpa similique quaerat voluptatibus aperiam eos, corporis <br>
+        neque magnam ab.
+    </p>
+    </div>
+    <div class="two tes"> Nurlan jsaojanawaW OJjdnjk top</div> 
+    <div class="the tes"> Nurlan iuiohoj'oioj [loklm;lk top</div>
+</body>
+</html>

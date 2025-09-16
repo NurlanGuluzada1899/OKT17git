@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>İki Oyunçu Top Toplama Oyunu</title>
+<style>
+    body { text-align: center; font-family: sans-serif; background: #111; color: #fff; }
+    canvas { background: #222; display: block; margin: 20px auto; border: 3px solid #fff; }
+    #info { display: flex; justify-content: space-around; font-size: 18px; margin-bottom: 5px; }
+    #winner { font-size: 36px; color: yellow; margin-top: 10px; display: none; }
+</style>
+</head>
+<body>
+<h1>İki Oyunçu Top Toplama Oyunu</h1>
+<div id="info">
+    <div>
+        <div>Player 1</div>
+        <div id="score1">Score: 0</div>
+        <div id="level1">Level: 1</div>
+        <div id="timer1">Time: 60</div>
+    </div>
+    <div>
+        <div>Player 2</div>
+        <div id="score2">Score: 0</div>
+        <div id="level2">Level: 1</div>
+        <div id="timer2">Time: 60</div>
+    </div>
+</div>
+<canvas id="gameCanvas" width="600" height="400"></canvas>
+<div id="winner"></div>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+const player1 = { x: 100, y: 350, width: 50, height: 50, speed: 10, score: 0, level: 1, time: 60 };
+const player2 = { x: 450, y: 350, width: 50, height: 50, speed: 10, score: 0, level: 1, time: 60 };
+let coins1 = [], coins2 = [];
+let coinSpeed1 = 2, coinSpeed2 = 2;
+let maxLevel = 3;
+let gameEnded = false;
+
+// Oyuncu hərəkəti
+document.addEventListener("keydown", e => {
+    if(gameEnded) return;
+    if(e.key === "a" && player1.x > 0) player1.x -= player1.speed;
+    if(e.key === "d" && player1.x + player1.width < canvas.width/2) player1.x += player1.speed;
+    if(e.key === "ArrowLeft" && player2.x > canvas.width/2) player2.x -= player2.speed;
+    if(e.key === "ArrowRight" && player2.x + player2.width < canvas.width) player2.x += player2.speed;
+});
+
+// Coins yaratmaq
+function spawnCoin(playerCoins, leftLimit, rightLimit){
+    if(gameEnded) return;
+    let x = Math.random() * (rightLimit - leftLimit - 20) + leftLimit;
+    playerCoins.push({ x: x, y: 0, width: 20, height: 20 });
+}
+
+// Collision yoxlama
+function checkCollision(a, b){
+    return a.x < b.x + b.width &&
+           a.x + a.width > b.x &&
+           a.y < b.y + b.height &&
+           a.y + a.height > b.y;
+}
+
+// Yalnız 300 xal bitirmə yoxlama
+function checkWin(){
+    if(player1.score >= 300 || player2.score >= 300){
+        gameEnded = true;
+        let winnerText = "";
+        if(player1.score > player2.score) winnerText = "Player 1 Wins!";
+        else if(player2.score > player1.score) winnerText = "Player 2 Wins!";
+        else winnerText = "It's a Tie!";
+        document.getElementById("winner").innerText = winnerText;
+        document.getElementById("winner").style.display = "block";
+    }
+}
+
+// Draw
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    // Players
+    ctx.fillStyle = "red";
+    ctx.fillRect(player1.x, player1.y, player1.width, player1.height);
+    ctx.fillStyle = "blue";
+    ctx.fillRect(player2.x, player2.y, player2.width, player2.height);
+
+    // Coins Player1
+    ctx.fillStyle = "yellow";
+    for(let i=0;i<coins1.length;i++){
+        let c = coins1[i];
+        c.y += coinSpeed1;
+        ctx.fillRect(c.x,c.y,c.width,c.height);
+        if(checkCollision(player1, c)){
+            player1.score +=10;
+            document.getElementById("score1").innerText = "Score: " + player1.score;
+            coins1.splice(i,1); i--;
+            if(player1.score % 100 === 0 && player1.level<maxLevel){
+                player1.level++;
+                coinSpeed1 += 1;
+                document.getElementById("level1").innerText = "Level: "+player1.level;
+                player1.time = 60;
+                document.getElementById("timer1").innerText = "Time: "+player1.time;
+            }
+            checkWin();
+        }
+        if(c.y > canvas.height) coins1.splice(i,1);
+    }
+
+    // Coins Player2
+    ctx.fillStyle = "orange";
+    for(let i=0;i<coins2.length;i++){
+        let c = coins2[i];
+        c.y += coinSpeed2;
+        ctx.fillRect(c.x,c.y,c.width,c.height);
+        if(checkCollision(player2, c)){
+            player2.score +=10;
+            document.getElementById("score2").innerText = "Score: " + player2.score;
+            coins2.splice(i,1); i--;
+            if(player2.score % 100 === 0 && player2.level<maxLevel){
+                player2.level++;
+                coinSpeed2 += 1;
+                document.getElementById("level2").innerText = "Level: "+player2.level;
+                player2.time = 60;
+                document.getElementById("timer2").innerText = "Time: "+player2.time;
+            }
+            checkWin();
+        }
+        if(c.y > canvas.height) coins2.splice(i,1);
+    }
+
+    if(!gameEnded) requestAnimationFrame(draw);
+}
+
+// Coin spawn timer
+setInterval(()=>{spawnCoin(coins1,0,canvas.width/2); spawnCoin(coins1,0,canvas.width/2);},1000);
+setInterval(()=>{spawnCoin(coins2,canvas.width/2,canvas.width); spawnCoin(coins2,canvas.width/2,canvas.width);},1000);
+
+// Timer
+setInterval(()=>{
+    if(!gameEnded){
+        if(player1.time>0) {player1.time--; document.getElementById("timer1").innerText = "Time: "+player1.time;}
+        if(player2.time>0) {player2.time--; document.getElementById("timer2").innerText = "Time: "+player2.time;}
+    }
+},1000);
+
+draw();
+</script>
+</body>
+</html>

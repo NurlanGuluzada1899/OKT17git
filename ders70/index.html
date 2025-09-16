@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satiş Mərkəzi</title>
+    <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .one {
+            background-color: red;
+            text-align: center;
+            color: azure;
+            padding: 20px;
+        }
+
+        .two {
+            color: white;
+            border-bottom: 2px solid white;
+            padding-bottom: 3px;
+        }
+
+        .theree {
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            padding: 40px;
+            background-color: white;
+        }
+
+        .theree:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .four {
+            padding: 10px 20px;
+        }
+
+        .fife {
+            padding: 13px 23px;
+        }
+
+        .six {
+            background-color: red;
+            color: white;
+            padding: 8px 13px;
+        }
+
+        .seven {
+            padding: 5px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .eight {
+            padding: 13px 15px;
+            border: none;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+        }
+
+        .nine {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 13px;
+            margin: 15px 150px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .eleven {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-right: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .twelwe {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        table,
+        th,
+        tr {
+            border: 1px solid #ddd;
+            font-size: 20px;
+            border-collapse: collapse;
+            padding: 10px;
+            text-align: center;
+            border-width: 1px;
+        }
+
+        .threten {
+            width: 100px;
+            height: auto;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f5f5f5;
+        }
+
+        .fourten {
+            margin-left: auto;
+
+            margin-right: auto;
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        .bir {
+            background-color: greenyellow;
+            text-align: center;
+            color: rgba(255,103,29,1);
+            padding: 20px;
+        }
+
+        .iki {
+            color: white;
+            border-bottom: 2px solid white;
+            padding-bottom: 3px;
+        }
+
+        .üç {
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            padding: 40px;
+            background-color: white;
+        }
+
+        .dörd {
+            padding: 10px 20px;
+        }
+
+        .beş {
+            padding: 13px 23px;
+        }
+
+        .yeddi {
+            padding: 5px 10px;
+            background-color: rgba(255,103,29,1);
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .sekkiz {
+            padding: 13px 15px;
+            border: none;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+        }
+        .üç:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        .the{
+          width: 80px;
+          height: auto;
+        }
+        .onbir {
+    font-size: 45px;
+    padding: 50px 20px;
+    background-image: url(https://i.pinimg.com/474x/ab/3b/ef/ab3beff15475b9e810640311df312029.jpg);
+        }
+        .on{
+            display: flex;
+        }
+        .card-title{
+            background-color: rgba(255,103,29,1);
+            border-radius: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="one">
+        <p>Summer Sale For All Swim Suits And Free Expres Delivery - OFF 50%! <span class="two">ShopNow</span></p>
+    </div>
+    <div class="theree">
+        <h2 class="four">E-commerce</h2>
+        <p class="fife">Home</p>
+        <p class="fife">Contact</p>
+        <p class="fife">About</p>
+        <p class="fife">Sign Up</p>
+        <button class="seven">Shop</button>
+        <input class="eight" type="text" placeholder="What are you looking for?" id="name" name="name">
+        <p class="fife">Quluzade Nurlan</p>
+        <button class="seven">log out</button>
+    </div>
+    <div>
+        <button class="nine">New Product</button>
+    </div>
+    <div class="ten">
+        <table class="fourten">
+            <tr>
+                <th>Id</th>
+                <th>Brand</th>
+                <th>Model</th>
+                <th>Category</th>
+                <th>Image</th>
+                <th>Price</th>
+                <th>Rating</th>
+                <th>Actions</th>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>Dell</td>
+                <td>XPS 13</td>
+                <td>undefined</td>
+                <td><img class="threten" src="https://www.pcworld.com/wp-content/uploads/2025/04/Dell-XPS-13.png"
+                        alt=""></td>
+                <td>1299.99$</td>
+                <td>undefined/5</td>
+                <td><button class="eleven">Edit</button>
+                    <button class="twelwe">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Samsung</td>
+                <td>Galaxy S23</td>
+                <td>undefined</td>
+                <td><img class="threten"
+                        src="https://www.samsungmobilepress.com/file/61974877113EC6D626FDC1404476F357B53AE592BAE9501B6AE3ED2A4AEC88DDED16E6A07386C1FCA0AA0971372786C938FDE1A718EE904F18D759D2BF367A5B26541AFD2DF29E9B52889ACBD9A42F18704C35999E895880328FFA5D29EF8FD628FF6ADCAD528EA849C8BADAE3CBCEFDBD7BA217017CE0F59F03F1CBE51766EA"
+                        alt=""></td>
+                <td>999.99$</td>
+                <td>undefined/5</td>
+                <td><button class="eleven">Edit</button>
+                    <button class="twelwe">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Bose</td>
+                <td>QuietComfort 45</td>
+                <td>undefined</td>
+                <td><img class="threten"
+                        src="https://assets.bosecreative.com/transform/aa0f1185-34c8-4969-b38d-74fa97edecfe/quietcomfort_headphones_45_silo_4_1920_1920"
+                        alt=""></td>
+                <td>329.99$</td>
+                <td>undefined/5</td>
+                <td><button class="eleven">Edit</button>
+                    <button class="twelwe">Delete</button>
+                </td>
+
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Iphone</td>
+                <td>16 Pro Max</td>
+                <td>undefined</td>
+                <td><img class="threten" 
+                    src="https://www.fonehaus.com.pg/wp-content/uploads/iPhone-16-Pro-Max.png"
+                        alt=""></td>
+                <td>2999.99$</td>
+                <td>undefined/5</td>
+                <td><button class="eleven">Edit</button>
+                    <button class="twelwe">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>Villa</td>
+                <td>New Model Villa</td>
+                <td>undefined</td>
+                <td><img class="threten"
+                        src="https://img.freepik.com/free-psd/modern-luxury-villa-architectural-design_191095-83148.jpg?semt=ais_hybrid&w=740"
+                        alt=""></td>
+                <td>999.999.99$</td>
+                <td>undefined/5</td>
+                <td><button class="eleven">Edit</button>
+                    <button class="twelwe">Delete</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <p class="bir">Market alış veriş qiymətləri! <span class="iki">Araz Market</span></p>
+    </div>
+    <div class="üç">
+        <img class="the" src="https://www.veyseloglu.az/storage/companies/RdI221XDQI02jIvMqrtT8oYl6KCyN0dZXD3pPX0A.png" alt="">
+        <h2 class="dörd">Araz Market</h2>
+        <p class="beş">Alış </p>
+        <p class="beş">Veriş</p>
+        <p class="beş">Endirim</p>
+        <p class="beş">Məlumat</p>
+        <button class="yeddi">Shop</button>
+        <input class="sekkiz" type="text" placeholder="Endirimdə olan qiymətlər hansılardır?" id="name" name="name">
+        <p class="beş">Quluzade Nurlan</p>
+        <button class="yeddi">çıxış</button>
+    </div>
+     <h1 class="onbir">Endirimli  məhsullar</h1>
+
+    <div class="on">
+   
+  
+    <div class="card" style="width: 18rem;">
+  <img src="https://atlas-content-cdn.pixelsquid.com/stock-images/ketchup-QJ3rQx2-600.jpg" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">20%</h5>
+    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
+  </div>
+</div>
+<div class="card" style="width: 18rem;">
+  <img src="https://ofisait.az/image/cache/catalog/products/cars/a032590_oyuncaq_mashin_pultlu_17_2-550x550.webp" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">13%</h5>
+    <p class="card-text"></p>
+  </div>
+</div>
+<div class="card" style="width: 18rem;">
+  <img src="https://strgimgr.umico.az/sized/280/548545-2612121bd2f0e7d2f875c9bfa11bed07.jpg" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">35%</h5>
+    <p class="card-text"></p>
+  </div>
+</div>
+<div class="card" style="width: 18rem;">
+  <img src="https://bazarstore.az/cdn/shop/products/30033598_418c68ed-f5d8-4a68-9a3a-08836ac4be85.jpg?v=1693558035" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">23%</h5>
+    <p class="card-text"></p>
+  </div>
+</div>
+<div class="card" style="width: 18rem;">
+  <img src="https://bazarstore.az/cdn/shop/products/30005549_987245f9-cac0-46dc-bc3a-b938fa2206e3.jpg?v=1693743135" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">50%</h5>
+    <p class="card-text"></p>
+  </div>
+</div>
+  </div>
+<link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js">
+</body>
+
+</html>

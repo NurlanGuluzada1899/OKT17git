@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="az">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Roblox‑style Login (Demo • ONLY FOR LEARNING)</title>
+  <style>
+    :root{
+      --bg:#0f0f10;
+      --card:#1a1b1e;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1000px 800px at 10% 10%, #16171a 0%, #0f1012 45%, #0b0c0e 100%);
+      color:var(--text);
+      display:grid; place-items:center;
+    }
+    :root{
+      --bg:#0f0f10;
+      --card:#1a1b1e;
+      --muted:#a6aab3;
+      --text:#e6e7eb;
+      --accent:#00a2ff;
+      --accent-700:#0083cc;
+      --danger:#ff5252;
+      --ring: 0 0 0 3px rgba(0,162,255,.35)
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1000px 800px at 10% 10%, #16171a 0%, #0f1012 45%, #0b0c0e 100%);
+      color:var(--text);
+      display:grid; place-items:center;
+    }
+    .wrap{width:100%;max-width:1040px;display:grid;grid-template-columns:1.1fr .9fr;gap:28px;padding:32px}
+    @media (max-width: 880px){.wrap{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid #25272c;border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+    .login{padding:28px}
+    .brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+    .cube{width:28px;height:28px;transform:rotate(15deg);background:linear-gradient(145deg,#2a2c31,#0f1012);border:1px solid #2f3238;border-radius:6px;display:grid;place-items:center;color:#9ad7ff;font-weight:800}
+    .brand h1{font-size:18px;margin:0;letter-spacing:.4px}
+    .muted{color:var(--muted)}
+    label{font-size:13px;color:#c9ccd4;display:block;margin:14px 0 8px}
+    .input{
+      background:#121316;
+      color:var(--text);
+      border:1px solid #2a2d33;
+      border-radius:12px;
+      padding:12px 14px;
+      width:100%;
+      outline:none;
+      transition:border .15s ease, box-shadow .15s ease, transform .05s ease;
+    }
+    .input:focus{border-color:#3a8ec9; box-shadow: var(--ring)}
+    .row{display:flex; gap:10px; align-items:center; justify-content:space-between}
+    .btn{
+      width:100%;
+      border:0;
+      border-radius:12px;
+      padding:12px 16px;
+      background:linear-gradient(180deg,var(--accent),var(--accent-700));
+      color:white; font-weight:700; letter-spacing:.3px; cursor:pointer; margin-top:14px;
+      transition:transform .06s ease, filter .15s ease, box-shadow .15s ease;
+      box-shadow: 0 10px 20px rgba(0,162,255,.15);
+    }
+    .btn:hover{filter:brightness(1.06)}
+    .btn:active{transform:translateY(1px)}
+    .link{color:#8ecfff; text-decoration:none}
+    .link:hover{text-decoration:underline}
+    .hint{font-size:12px; color:#9aa0ab; margin-top:8px}
+    .error{display:none; color:var(--danger); font-size:13px; margin-top:8px}
+    .remember{display:flex; align-items:center; gap:8px; margin-top:8px}
+    .checkbox{appearance:none; width:18px; height:18px; border:1px solid #3b3f46; border-radius:5px; background:#131417; display:grid; place-items:center; cursor:pointer;}
+    .checkbox:checked{background:#0f8bdc; border-color:#0f8bdc}
+    .checkbox:checked::after{content:"✓"; font-size:12px; color:white}
+    .passtoggle{position:relative}
+    .toggle-btn{position:absolute; right:10px; top:50%; transform:translateY(-50%); background:transparent; border:0; color:#a9b0ba; cursor:pointer}
+    .footer{margin-top:18px; display:flex; justify-content:space-between; align-items:center; font-size:13px}
+    .divider{height:1px;background:#23262b;margin:18px 0}
+    .note{font-size:12px; color:#aab0ba; background:#101216; border:1px dashed #2a2e35; border-radius:12px; padding:10px 12px;}
+    .hero{padding:26px; display:grid; place-items:center; text-align:center}
+    .hero h2{margin:0 0 8px; font-size:22px}
+    .hero p{margin:0; color:#b1b6c0}
+    .glass{border-radius:18px; background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid #2a2c31}
+    .kbd{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size:12px; background:#0e1114; border:1px solid #2b2e34; padding:2px 6px; border-radius:6px; color:#cbd3df}
+  </style>
+</head>
+<body>
+    
+  <div class="wrap">
+    <section class="card login">
+      <div class="brand">
+        <div class="cube">R</div>
+        <h1>Game Login <span class="muted">• Demo</span></h1>
+      </div>
+      <p class="note">Bu yalnız <strong>öyrənmək üçün demo</strong>-dur. Heç vaxt real Roblox və ya başqa hesabın <strong>istifadəçi adı / parolunu</strong> burada yazma! 🔒</p>
+
+      <form id="loginForm" autocomplete="off">
+        <label for="username">İstifadəçi adı və ya e‑poçt</label>
+        <input class="input" id="username" name="username" placeholder="məs: nurlan13" minlength="3" required />
+
+        <label for="password">Parol</label>
+        <div class="passtoggle">
+          <input class="input" id="password" name="password" type="password" placeholder="••••••••" minlength="6" required />
+          <button type="button" class="toggle-btn" id="togglePass" aria-label="Parolu göstər/gizlət">👁️</button>
+        </div>
+
+        <div class="row">
+          <label class="remember">
+            <input type="checkbox" class="checkbox" id="remember" />
+            Məni xatırla
+          </label>
+          <a class="link" href="#" id="forgot">Parolu unutdun?</a>
+        </div>
+
+        <button class="btn" type="submit">Daxil ol</button>
+        <p class="error" id="errorBox">Xəta: istifadəçi adı və ya parol yanlışdır (demo mesajı).</p>
+        <p class="hint">Hesabın yoxdur? <a class="link" href="#" id="signup">Qeydiyyatdan keç</a></p>
+      </form>
+
+      <div class="divider"></div>
+      <div class="hint">İpucu: <span class="kbd">Ctrl</span> + <span class="kbd">S</span> ilə yadda saxla, sonra brauzerdə aç.</div>
+    </section>
+
+    <aside class="card hero glass">
+      <h2>Roblox‑tərzi giriş UI</h2>
+      <p>Burada yalnız <em>front‑end</em> var. Heç bir real server və ya Roblox API istifadə olunmur.</p>
+      <p style="margin-top:14px">Aşağıdakı demo qaydalarına bax:</p>
+      <ul style="text-align:left; line-height:1.6">
+        <li>İstənilən istifadəçi adı + ən azı 6 simvolluq parol → <strong>Uğurlu giriş</strong> mesajı</li>
+        <li>Əks halda → <strong>Xəta</strong> mesajı</li>
+        <li>"Parolu göstər" düyməsi ilə parolu gizlət/göstər</li>
+        <li>"Məni xatırla" seçilərsə, demo məlumatı localStorage‑a yazılacaq</li>
+      </ul>
+    </aside>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const errorBox = document.getElementById('errorBox');
+    const pass = document.getElementById('password');
+    const user = document.getElementById('username');
+    const remember = document.getElementById('remember');
+    const toggle = document.getElementById('togglePass');
+
+    // Parolu göstər/gizlət
+    toggle.addEventListener('click', () => {
+      const isPwd = pass.type === 'password';
+      pass.type = isPwd ? 'text' : 'password';
+      toggle.textContent = isPwd ? '🙈' : '👁️';
+    });
+
+    // Demo: "Unutdum" və "Qeydiyyat" klikləri
+    document.getElementById('forgot').addEventListener('click', e => {
+      e.preventDefault();
+      alert('Demo: Parolu sıfırlamaq üçün real backend yoxdur. Bu yalnız UI nümunəsidir.');
+    });
+    document.getElementById('signup').addEventListener('click', e => {
+      e.preventDefault();
+      alert('Demo: Qeydiyyat səhifəsi bu faylda yoxdur. Özün ayrıca fayl kimi yaza bilərsən.');
+    });
+
+    // Formun demo yoxlanışı
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      errorBox.style.display = 'none';
+
+      const u = user.value.trim();
+      const p = pass.value;
+
+      // Sadə demo qaydası: username ən az 3 simvol, parol ən az 6
+      if (u.length >= 3 && p.length >= 6) {
+        // "Məni xatırla" seçilibsə demo məlumatlarını saxla
+        if (remember.checked) {
+          localStorage.setItem('demo_user', JSON.stringify({ u }))
+        } else {
+          localStorage.removeItem('demo_user');
+        }
+        alert('Uğurlu giriş (demo)! Heç bir real hesaba qoşulmur.');
+        form.reset();
+      } else {
+        errorBox.style.display = 'block';
+      }
+    });
+
+    // localStorage-dan demo adı yüklə
+    const saved = localStorage.getItem('demo_user');
+    if (saved) {
+      try { user.value = JSON.parse(saved).u || '' } catch {}
+      remember.checked = true;
+    }
+  </script>
+</body>
+</html>

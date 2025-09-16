@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>İki Oyunçu Futbol Oyunu</title>
+<style>
+    body { text-align: center; font-family: sans-serif; background: #1a1a1a; color: #fff; }
+    canvas { background: #4caf50; display: block; margin: 20px auto; border: 3px solid #fff; }
+    #scoreboard { display: flex; justify-content: space-around; font-size: 18px; margin-bottom: 10px; }
+    #timer { font-size: 20px; margin-bottom: 10px; }
+    #result { font-size: 30px; color: yellow; margin-top: 10px; display: none; }
+    #restartBtn { display: none; margin-top: 15px; padding: 10px 20px; font-size: 18px; border: none; border-radius: 8px; background: orange; color: black; cursor: pointer; }
+</style>
+</head>
+<body>
+<h1>İki Oyunçu Futbol Oyunu</h1>
+
+<div id="timer">Vaxt: 01:30</div>
+
+<div id="scoreboard">
+    <div>
+        <div>Senan</div>
+        <div id="score1">Score: 0</div>
+    </div>
+    <div>
+        <div>Nurlan</div>
+        <div id="score2">Score: 0</div>
+    </div>
+</div>
+
+<canvas id="gameCanvas" width="800" height="400"></canvas>
+<div id="result"></div>
+<button id="restartBtn">🔄 Yenidən Başlat</button>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+// Players
+let player1 = { x: 30, y: 150, width: 20, height: 100, color: "red", speed: 8, score: 0 };
+let player2 = { x: canvas.width - 50, y: 150, width: 20, height: 100, color: "blue", speed: 8, score: 0 };
+
+// Ball
+let ball = { x: canvas.width/2, y: canvas.height/2, radius: 12, color: "yellow", dx: 12.5, dy: 12.5 };
+
+// Keypress
+const keys = {};
+document.addEventListener("keydown", e => { keys[e.key] = true; });
+document.addEventListener("keyup", e => { keys[e.key] = false; });
+
+// Timer (3 dəqiqə = 180 saniyə)
+let timeLeft = 90;
+let gamePaused = false;
+let timerInterval;
+
+function startTimer(){
+    clearInterval(timerInterval);
+    timeLeft = 90;
+    timerInterval = setInterval(() => {
+        if(gamePaused) { clearInterval(timerInterval); return; }
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        document.getElementById("timer").innerText = 
+            `Vaxt: ${minutes.toString().padStart(2,"0")}:${seconds.toString().padStart(2,"0")}`;
+        if(timeLeft <= 0){
+            clearInterval(timerInterval);
+            endGame();
+        }
+        timeLeft--;
+    }, 1000);
+}
+
+// Draw rectangle
+function drawRect(obj){
+    ctx.fillStyle = obj.color;
+    ctx.fillRect(obj.x,obj.y,obj.width,obj.height);
+}
+
+// Draw circle
+function drawBall(ball){
+    ctx.fillStyle = ball.color;
+    ctx.beginPath();
+    ctx.arc(ball.x,ball.y,ball.radius,0,Math.PI*2);
+    ctx.fill();
+    ctx.closePath();
+}
+
+// Update
+function update(){
+    if(gamePaused) return;
+
+    // Player1 (W/S)
+    if(keys["w"] && player1.y > 0) player1.y -= player1.speed;
+    if(keys["s"] && player1.y + player1.height < canvas.height) player1.y += player1.speed;
+
+    // Player2 (ArrowUp/ArrowDown)
+    if(keys["ArrowUp"] && player2.y > 0) player2.y -= player2.speed;
+    if(keys["ArrowDown"] && player2.y + player2.height < canvas.height) player2.y += player2.speed;
+
+    // Ball movement
+    ball.x += ball.dx;
+    ball.y += ball.dy;
+
+    // Top yuxarı/aşağı dəysə geri dönür
+    if(ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height){
+        ball.dy *= -1;
+    }
+
+    // Sol oyunçu ilə toqquşma
+    if(ball.x - ball.radius < player1.x + player1.width &&
+       ball.y > player1.y && ball.y < player1.y + player1.height){
+        ball.dx *= -1;
+        ball.x = player1.x + player1.width + ball.radius;
+    }
+
+    // Sağ oyunçu ilə toqquşma
+    if(ball.x + ball.radius > player2.x &&
+       ball.y > player2.y && ball.y < player2.y + player2.height){
+        ball.dx *= -1;
+        ball.x = player2.x - ball.radius;
+    }
+
+    // Qol yoxlama
+    if(ball.x - ball.radius < 0){ 
+        player2.score += 10; 
+        document.getElementById("score2").innerText = "Score: "+player2.score;
+        resetBall();
+    }
+    if(ball.x + ball.radius > canvas.width){ 
+        player1.score += 10; 
+        document.getElementById("score1").innerText = "Score: "+player1.score;
+        resetBall();
+    }
+}
+
+// Reset ball (HƏMİŞƏ 15 sürətində)
+function resetBall(){
+    ball.x = canvas.width/2;
+    ball.y = canvas.height/2;
+    let speed = 12.5;
+    ball.dx = (Math.random() > 0.5 ? speed : -speed);
+    ball.dy = (Math.random() > 0.5 ? speed : -speed);
+}
+
+// Draw everything
+function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    drawRect(player1);
+    drawRect(player2);
+    drawBall(ball);
+}
+
+// End game
+function endGame(){
+    gamePaused = true;
+    let resultText = "";
+    if(player1.score > player2.score) resultText = "🏆 Senan qalib gəldi!";
+    else if(player2.score > player1.score) resultText = "🏆 Nurlan qalib gəldi!";
+    else resultText = "🤝 Bərabərə qaldınız!";
+    document.getElementById("result").innerText = resultText;
+    document.getElementById("result").style.display = "block";
+    document.getElementById("restartBtn").style.display = "inline-block";
+}
+
+// Restart game
+document.getElementById("restartBtn").addEventListener("click", () => {
+    player1.score = 0;
+    player2.score = 0;
+    document.getElementById("score1").innerText = "Score: 0";
+    document.getElementById("score2").innerText = "Score: 0";
+    document.getElementById("result").style.display = "none";
+    document.getElementById("restartBtn").style.display = "none";
+    gamePaused = false;
+    resetBall();
+    startTimer();
+});
+
+// Game loop
+function loop(){
+    update();
+    draw();
+    requestAnimationFrame(loop);
+}
+
+startTimer();
+loop();
+</script>
+</body>
+</html>

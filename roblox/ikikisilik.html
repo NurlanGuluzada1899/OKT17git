@@ -45,8 +45,8 @@ let ball = { x: canvas.width/2, y: canvas.height/2, radius: 12, color: "yellow",
 
 // Keypress
 const keys = {};
-document.addEventListener("keydown", e => { keys[e.key] = true; });
-document.addEventListener("keyup", e => { keys[e.key] = false; });
+document.addEventListener("keydown", n => { keys[n.key] = true; });
+document.addEventListener("keyup", n => { keys[n.key] = false; });
 
 // Timer (3 dəqiqə = 180 saniyə)
 let timeLeft = 90;
@@ -55,7 +55,7 @@ let timerInterval;
 
 function startTimer(){
     clearInterval(timerInterval);
-    timeLeft = 90;
+    timeLeft = 60;
     timerInterval = setInterval(() => {
         if(gamePaused) { clearInterval(timerInterval); return; }
         let minutes = Math.floor(timeLeft / 60);

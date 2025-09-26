@@ -28,6 +28,17 @@ for (let i = firstname.length - 1; i >= 0; i--) {
     console.log(firstname[i]);
 }
 
+let text = "Bu bir cümlədir. Buradan sonra oxunmasın.";
+
+for (let i = 0; i < text.length; i++) {
+  if (text[i] === ".") {
+    console.log("Nöqtə tapıldı, proses dayandırıldı.");
+    break;
+  }
+  process.stdout.write(text[i]); 
+}
+
+let
     </script>
 </body>
 </html>

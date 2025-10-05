@@ -8,8 +8,66 @@
 <body>
    <script>
 
-let num = '31,32,33,34,35'
-console.log(num.split(",").join(";"))
+
+
+//asan
+let fruits = ["apple", "banana", "cherry"];
+
+fruits.push("orange");
+console.log(fruits);
+
+fruits.pop();
+console.log(fruits);
+
+fruits.unshift("watermelon");
+console.log(fruits); 
+
+
+fruits.shift();
+console.log(fruits); 
+
+//orta
+let sentence = "JavaScript is fun";
+
+let words = sentence.split(" ");
+console.log(words); 
+
+words.push("really");
+console.log(words); 
+
+let newSentence = words.join(" ");
+console.log(newSentence); 
+
+
+let users = ["Ali", "Leyla", "Rashid"];
+
+users.push("Nurlan");
+console.log(users); 
+
+
+users.shift();
+console.log(users); 
+
+let userString = users.join(", ");
+console.log(userString); 
+
+//cetin
+let toDoList = [];
+
+toDoList.unshift("Wake up");
+console.log(toDoList);
+
+toDoList.push("Do homework");
+console.log(toDoList); 
+
+toDoList.push("Play football");
+console.log(toDoList); 
+
+toDoList.pop();
+console.log(toDoList); 
+let tasks = toDoList.join(" -> ");
+console.log(tasks); 
+
 
    </script> 
 </body>

@@ -1,74 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
 </head>
+
 <body>
    <script>
 
 
 
-//asan
-let fruits = ["apple", "banana", "cherry"];
+      //asan
+      let fruits = ["apple", "banana", "cherry"];
 
-fruits.push("orange");
-console.log(fruits);
+      fruits.push("orange");
+      console.log(fruits);
 
-fruits.pop();
-console.log(fruits);
+      fruits.pop();
+      console.log(fruits);
 
-fruits.unshift("watermelon");
-console.log(fruits); 
-
-
-fruits.shift();
-console.log(fruits); 
-
-//orta
-let sentence = "JavaScript is fun";
-
-let words = sentence.split(" ");
-console.log(words); 
-
-words.push("really");
-console.log(words); 
-
-let newSentence = words.join(" ");
-console.log(newSentence); 
+      fruits.unshift("watermelon");
+      console.log(fruits);
 
 
-let users = ["Ali", "Leyla", "Rashid"];
+      fruits.shift();
+      console.log(fruits);
 
-users.push("Nurlan");
-console.log(users); 
+      //orta
+      let sentence = "JavaScript is fun";
 
+      let words = sentence.split(" ");
+      console.log(words);
 
-users.shift();
-console.log(users); 
+      words.push("really");
+      console.log(words);
 
-let userString = users.join(", ");
-console.log(userString); 
-
-//cetin
-let toDoList = [];
-
-toDoList.unshift("Wake up");
-console.log(toDoList);
-
-toDoList.push("Do homework");
-console.log(toDoList); 
-
-toDoList.push("Play football");
-console.log(toDoList); 
-
-toDoList.pop();
-console.log(toDoList); 
-let tasks = toDoList.join(" -> ");
-console.log(tasks); 
+      let newSentence = words.join(" ");
+      console.log(newSentence);
 
 
-   </script> 
+      let users = ["Ali", "Leyla", "Rashid"];
+
+      users.push("Nurlan");
+      console.log(users);
+
+
+      users.shift();
+      console.log(users);
+
+      let userString = users.join(", ");
+      console.log(userString);
+
+      //cetin
+      let toDoList = [];
+
+      toDoList.unshift("Wake up");
+      console.log(toDoList);
+
+      toDoList.push("Do homework");
+      console.log(toDoList);
+
+      toDoList.push("Play football");
+      console.log(toDoList);
+
+      toDoList.pop();
+      console.log(toDoList);
+      let tasks = toDoList.join(" -> ");
+      console.log(tasks);
+
+      let mark = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+let a = mark[0];
+let b = mark[1];
+
+let newNumbers = mark.slice(2);
+
+console.log("Birinci ədəd:", a);
+console.log("İkinci ədəd:", b);
+console.log("Yeni massiv:", newNumbers);
+
+   </script>
 </body>
 </html>

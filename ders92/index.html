@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+ let fruits = ["apple", "banana"];
+fruits.push("orange");
+console.log(fruits); 
+let numbers = [1, 2, 3];
+numbers.pop();
+console.log(numbers);
+let colors = ["red", "green", "blue"];
+colors.shift();
+console.log(colors); 
+let animals = ["cat", "dog"];
+animals.unshift("lion");
+console.log(animals); 
+let letters = ["a", "b", "c", "d"];
+let part = letters.slice(1, 3);
+console.log(part);
+let names = ["Ali", "Vali", "Sami"];
+names.splice(1, 1, "Nurlan");
+console.log(names); 
+let words = ["I", "love", "JS"];
+console.log(words.join(" ")); 
+let items = ["pen", "book", "bag"];
+items.forEach(item => console.log(item.toUpperCase()));
+    </script>
+</body>
+</html>

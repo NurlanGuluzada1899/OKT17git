@@ -29,6 +29,30 @@ let words = ["I", "love", "JS"];
 console.log(words.join(" ")); 
 let items = ["pen", "book", "bag"];
 items.forEach(item => console.log(item.toUpperCase()));
+let color= ["red", "blue", "green"];
+console.log(color.includes("red")); 
+let number = [1, 2, 3];
+let doubled = number.map(n => n * 2);
+console.log(doubled); 
+let numbe = [1, 2, 3, 4, 5];
+let even = numbe.filter(n => n % 2 === 0);
+console.log(even);
+let colo = ["red", "blue", "green"];
+console.log(colo.indexOf("blue")); 
+let numb = [4, 2, 1, 3];
+numb.sort();
+console.log(numb);
+let num = [1, 2, 3];
+num.reverse();
+console.log(num);
+let user1 = {
+    name: "Nurlan",
+    gender: "kisi",
+    birthday: "3 July 2012"
+};
+delete user1.birthday;
+user1.age = 12;
+console.log(user1);
     </script>
 </body>
 </html>

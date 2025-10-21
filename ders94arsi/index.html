@@ -11,11 +11,10 @@ let student = {
     name: "Nurlan",
     grades: [90, 80, 70, 100],
     getAverage() {
-        let num = num.grades.reduce((a, b) => a + b);
-        return num / num.grades.length;
+        let num = this.grades.reduce((a, b) => a + b);
+        return num / this.grades.length;                                                          
     }
 };
-
 console.log(student.getAverage());
 
     </script>

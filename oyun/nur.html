@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Satış Mərkəzi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+    }
+
+    /* üst hissə */
+    .banner {
+      background: linear-gradient(90deg, #ff661f, #ff9f1a);
+      text-align: center;
+      color: white;
+      padding: 15px;
+      font-weight: 500;
+    }
+
+    .banner span {
+      border-bottom: 2px solid white;
+      cursor: pointer;
+    }
+
+    /* Navbar */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: white;
+      padding: 15px 50px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 600;
+      color: #ff661f;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      margin: 0 10px;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #ff661f;
+      border-bottom: 2px solid #ff661f;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      padding: 7px 15px;
+      width: 180px;
+      transition: 0.3s;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #ff661f;
+    }
+
+    .shop-btn, .logout-btn {
+      background-color: #ff661f;
+      color: white;
+      border: none;
+      padding: 7px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .shop-btn:hover, .logout-btn:hover {
+      background-color: #ff8845;
+    }
+
+    .username {
+      font-weight: 500;
+      color: #555;
+      margin: 0 10px;
+    }
+
+    /* Məhsul hissəsi */
+    .product-section {
+      padding: 40px 60px;
+      text-align: center;
+    }
+
+    .product-section h2 {
+      color: #ff661f;
+      margin-bottom: 25px;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 25px;
+      justify-content: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      padding: 20px;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+
+    .card img {
+      width: 150px;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    .price {
+      color: #ff661f;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .rating {
+      color: #ffaa00;
+      margin: 8px 0;
+    }
+
+    .buttons button {
+      border: none;
+      padding: 7px 15px;
+      margin: 5px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .edit-btn {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .edit-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .delete-btn:hover {
+      background-color: #b02a37;
+    }
+
+    /* Alt hissə */
+    footer {
+      background-color: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="banner">
+    Summer Sale For All Swim Suits And Free Express Delivery – OFF 50%! <span>Shop Now</span>
+  </div>
+
+  <header>
+    <h2 class="logo">E-commerce</h2>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Contact</a>
+      <a href="#">About</a>
+      <a href="#">Sign Up</a>
+    </nav>
+    <div class="actions">
+      <input type="text" id="searchInput" placeholder="Search products...">
+      <button class="shop-btn">Shop</button>
+      <p class="username">Quluzade Nurlan</p>
+      <button class="logout-btn">Logout</button>
+    </div>
+  </header>
+
+  <section class="product-section">
+    <h2>Products</h2>
+    <div class="product-grid">
+      <div class="card">
+        <img src="https://www.pcworld.com/wp-content/uploads/2025/04/Dell-XPS-13.png" alt="Dell XPS 13">
+        <h3>Dell XPS 13</h3>
+        <p class="price">$1299.99</p>
+        <p class="rating">⭐ 4.7 / 5</p>
+        <div class="buttons">
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://www.samsungmobilepress.com/file/61974877113EC6D626FDC1404476F357B53AE592BAE9501B6AE3ED2A4AEC88DDED16E6A07386C1FCA0AA0971372786C938FDE1A718EE904F18D759D2BF367A5B26541AFD2DF29E9B52889ACBD9A42F18704C35999E895880328FFA5D29EF8FD628FF6ADCAD528EA849C8BADAE3CBCEFDBD7BA217017CE0F59F03F1CBE51766EA" alt="Samsung S23">
+        <h3>Samsung Galaxy S23</h3>
+        <p class="price">$999.99</p>
+        <p class="rating">⭐ 4.5 / 5</p>
+        <div class="buttons">
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://assets.bosecreative.com/transform/aa0f1185-34c8-4969-b38d-74fa97edecfe/quietcomfort_headphones_45_silo_4_1920_1920" alt="Bose Headphones">
+        <h3>Bose QC45</h3>
+        <p class="price">$329.99</p>
+        <p class="rating">⭐ 4.6 / 5</p>
+        <div class="buttons">
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://www.fonehaus.com.pg/wp-content/uploads/iPhone-16-Pro-Max.png" alt="iPhone 16 Pro Max">
+        <h3>iPhone 16 Pro Max</h3>
+        <p class="price">$2999.99</p>
+        <p class="rating">⭐ 4.9 / 5</p>
+        <div class="buttons">
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://img.freepik.com/free-psd/modern-luxury-villa-architectural-design_191095-83148.jpg?semt=ais_hybrid&w=740" alt="Villa">
+        <h3>Modern Villa</h3>
+        <p class="price">$999,999.99</p>
+        <p class="rating">⭐ 4.8 / 5</p>
+        <div class="buttons">
+          <button class="edit-btn">Edit</button>
+          <button class="delete-btn">Delete</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 E-commerce Store | Designed by Quluzade Nurlan
+  </footer>
+
+  <script>
+    // Axtarış funksiyası
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function() {
+      const filter = searchInput.value.toLowerCase();
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        card.style.display = title.includes(filter) ? 'block' : 'none';
+      });
+    });
+
+    // Delete funksiyası
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(confirm("Bu məhsulu silmək istədiyinizə əminsiniz?")) {
+          btn.closest('.card').remove();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

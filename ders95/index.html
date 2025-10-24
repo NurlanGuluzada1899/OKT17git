@@ -11,10 +11,10 @@ let student = {
     name: "nurlan",
     lastname: "qulizade",
     get Fullname() {
-        return this.name + "" + this.lastname;
+        return this.name + " " + this.lastname;
     },
     set Fullname(value) {
-let parts = value.split("");
+let parts = value.split(" ");
 this.name = [0];
 this.lastname = [1];
     }

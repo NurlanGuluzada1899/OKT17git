@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+let student = {
+  firstName: "Nurlan",
+  lastName: "Qulizade",
+
+  get fullName() {
+    return this.firstName + " " + this.lastName;
+  },
+
+  set fullName(value) {
+    let parts = value.split(" ");
+    this.firstName = parts[0];
+    this.lastName = parts[1];
+  }
+};
+
+student.fullName = "Senan Qulizade";
+console.log(student.fullName);
+console.log(student.firstName);
+console.log(student.lastName);  
+
+let product = {
+  name: "Book",
+  priceUSD: 1.7,
+
+  get priceAZN() {
+    return this.priceUSD * 1.0;
+  }
+};
+
+console.log(product.priceAZN); 
+
+    </script>
+</body>
+</html>

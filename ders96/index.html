@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let arr = [1, 2, 2, 3, 3, 4, 4, 4, 6, 7, 9, 9]
+        let newArr = new Set(arr)
+        console.log(arr);
+        console.log(newArr);
+
+        let fruits = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple'];
+        let map = new Map();
+        for (let meyvesayi of fruits) {
+            map.set(meyvesayi, (map.get(meyvesayi) || 0) + 1);
+        }
+        for (let [key, value] of map) {
+            console.log(`${key} => ${value}`);
+        }
+
+
+    </script>
+</body>
+
+</html>

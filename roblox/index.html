@@ -6,29 +6,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://js.stripe.com/v3/"></script>
     <title>Document</title>
-    <style>
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    text-align: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+}
+
+#letter-box {
+    font-size: 50px;
+    margin: 20px 0;
+    padding: 20px;
+    border: 2px solid #333;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
 
     </style>
-</head>
-
 <body>
-    <div class="roblox">
-        <label for="name">Name</label>
-        <input class="input" type="text" name="name" id="name"><br> <br>
-        <label for="surname">Surname</label>
-        <input class="input" type="text" name="surname" id="surname"><br> <br>
-        <label for="age">Age</label>
-        <input class="input" type="number" min="0" name="age" id="age"><br> <br>
-        <label for="date">Date</label>
-        <input class="input" type="date" name="date" id="date"><br> <br>
-        <label for="email">Email</label>
-        <input class="input" type="email" name="email" id="email"><br> <br>
-        <label>Cins</label>
-        <select>
-            <option value="kisi">Kişi</option>
-            <option value="qadin">Qadin</option>
-            <option value="diger secimler">Diger secimler</option>
-        </select>
+
+
+
+    <script>
+const letters = "qwertyuiopasdfghjklzxcvbnm";
+let currentLetter = '';
+let score = 0;
+
+const letterBox = document.getElementById('letter-box');
+const scoreSpan = document.getElementById('score');
+const restartBtn = document.getElementById('restart');
+
+function getRandomLetter() {
+    const index = Math.floor(Math.random() * letters.length);
+    return letters[index];
+}
+
+function newLetter() {
+    currentLetter = getRandomLetter();
+    letterBox.textContent = currentLetter.toUpperCase();
+}
+
+document.addEventListener('keydown', (event) => {
+    if(event.key.toLowerCase() === currentLetter) {
+        score++;
+        scoreSpan.textContent = score;
+        newLetter();
+    }
+});
+
+restartBtn.addEventListener('click', () => {
+    score = 0;
+    scoreSpan.textContent = score;
+    newLetter();
+});
+
+// Başlanğıc üçün ilk hərfi göstər
+newLetter();
+
+    </script>
+
+
+
+
+
+    <div class="container">
+        <h1>Keyboard Challenge</h1>
+        <p>Press the letters as they appear!</p>
+        <div id="letter-box">A</div>
+        <p>Score: <span id="score">0</span></p>
+        <button id="restart">Restart</button>
     </div>
 </body>
 

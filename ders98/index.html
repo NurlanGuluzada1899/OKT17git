@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+class Person {
+    constructor(n, s, a, g) {
+        this.name = n;
+        this.surname = s; 
+        this.age = a;
+        this.gender = g; 
+    }
+
+}
+
+class Admin extends Person {
+    constructor(name, surname, age, gender, role, id) {
+        super(name, surname, age, gender); 
+        this.role = role;
+        this.id = id;
+    }
+}
+
+
+
+class Player extends Person {
+    constructor(name, surname, age, gender, level) {
+        super(name, surname, age, gender);
+        this.level = level;
+    }
+}
+
+
+
+
+let person1 = new Person("Nurlan", "Qulizade", 13, "kişi");
+console.log(person1);
+
+
+
+let admin1 = new Admin("Efsane", "Talıbova", 28, "qadın", "SuperAdmin", "A456");
+console.log(admin1);
+
+
+
+let player1 = new Player("Senan", "Qulizade", 10, "kişi", 10);
+console.log(player1);
+
+    </script>
+</body>
+</html>

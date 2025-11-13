@@ -1,0 +1,402 @@
+# Writing the full single-file HTML/JS "Influencer Tycoon" game to disk
+# Then render the code as a PNG image so the user gets the code as an image.
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
+import textwrap, os, math
+
+html_code = r"""
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Influencer Tycoon — Mini</title>
+<style>
+  :root{--bg:#0f1724;--card:#0b1220;--accent:#7c3aed;--muted:#94a3b8;--glass:rgba(255,255,255,0.03)}
+  *{box-sizing:border-box;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial}
+  body{margin:0;min-height:100vh;background:linear-gradient(180deg,#071020 0%, #0b1b2b 100%);color:#e6eef8;padding:20px;display:flex;align-items:flex-start;justify-content:center}
+  .wrap{width:980px;display:grid;grid-template-columns:380px 1fr;gap:20px}
+  .card{background:var(--card);padding:16px;border-radius:12px;box-shadow:0 6px 24px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+  h1{margin:0 0 6px;font-size:20px}
+  .stat{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+  .stat .big{font-size:22px;font-weight:700}
+  .btn{background:linear-gradient(90deg,var(--accent),#4c1d95);color:white;padding:10px 12px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
+  .muted{color:var(--muted);font-size:13px}
+  .section{margin-bottom:14px}
+  .row{display:flex;gap:8px;align-items:center}
+  .panel{background:var(--glass);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+  .list{display:grid;gap:8px}
+  .item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent)}
+  .small{font-size:13px}
+  .controls{display:flex;gap:8px;flex-wrap:wrap}
+  .upgrade{display:flex;flex-direction:column;gap:6px}
+  footer{margin-top:12px;color:var(--muted);font-size:13px}
+  .log{height:140px;overflow:auto;padding:8px;background:rgba(0,0,0,0.15);border-radius:8px;font-size:13px}
+  input[type=range]{width:100%}
+  .sponsor{background:linear-gradient(90deg,#f59e0b,#f97316);padding:8px;border-radius:8px;color:#07101a;font-weight:700}
+  .disabled{opacity:0.45;pointer-events:none}
+  @media(max-width:1000px){.wrap{width:100%;grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <h1>Influencer Tycoon (Mini)</h1>
+    <div class="stat">
+      <div>
+        <div class="muted">Followers</div>
+        <div class="big" id="followers">0</div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div class="muted">Money</div>
+        <div class="big" id="money">$0</div>
+      </div>
+    </div>
+
+    <div class="section panel">
+      <div class="muted">Create a Post</div>
+      <div class="controls" style="margin-top:8px">
+        <select id="postType">
+          <option value="short">Short Video — fast reach</option>
+          <option value="photo">Photo — stable</option>
+          <option value="long">Long Video — deep engagement</option>
+        </select>
+        <button class="btn" id="postBtn">Post</button>
+      </div>
+      <div class="muted" style="margin-top:8px">Post cooldown: <span id="cooldown">Ready</span></div>
+    </div>
+
+    <div class="section panel">
+      <div class="muted">Team & Upgrades</div>
+      <div class="list" style="margin-top:8px">
+        <div class="item">
+          <div>
+            <div class="small">Hire Editor</div>
+            <div class="muted small">+ passive followers/sec</div>
+          </div>
+          <div style="text-align:right">
+            <div>$<span id="editorCost">50</span></div>
+            <button class="btn" id="hireEditor">Hire</button>
+          </div>
+        </div>
+
+        <div class="item">
+          <div>
+            <div class="small">Hire Manager</div>
+            <div class="muted small">improves sponsor deals</div>
+          </div>
+          <div style="text-align:right">
+            <div>$<span id="managerCost">200</span></div>
+            <button class="btn" id="hireManager">Hire</button>
+          </div>
+        </div>
+
+        <div class="item upgrade">
+          <div class="small muted">Tune the Algorithm</div>
+          <input id="algo" type="range" min="0" max="5" value="0" />
+          <div class="muted small">Boosts post reach multiplier</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section panel">
+      <div class="muted">Sponsorships</div>
+      <div class="row" style="margin-top:8px">
+        <div class="sponsor" id="sponsorOffer">No offers</div>
+        <button class="btn" id="acceptSponsor">Accept</button>
+      </div>
+      <div class="muted small" style="margin-top:8px">Sponsors appear randomly. Managers increase offer quality.</div>
+    </div>
+
+    <footer>Tip: Mix post types and hire a team. Game auto-saves in your browser.</footer>
+  </div>
+
+  <div class="card">
+    <div class="section">
+      <div class="muted">Stats & Actions</div>
+      <div class="row" style="margin-top:8px">
+        <div class="panel small" style="padding:10px">
+          <div>Followers/sec: <span id="fps">0</span></div>
+          <div>Reach multiplier: x<span id="reach">1.0</span></div>
+          <div>Editor hired: <span id="editors">0</span></div>
+          <div>Manager hired: <span id="managers">0</span></div>
+        </div>
+        <div style="margin-left:auto">
+          <button class="btn" id="reset">Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="muted">Activity Log</div>
+      <div class="log" id="log"></div>
+    </div>
+
+    <div class="section panel">
+      <div class="muted small">Settings</div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn" id="exportBtn">Export Save</button>
+        <button class="btn" id="importBtn">Import Save</button>
+        <input type="file" id="importFile" style="display:none" accept=".json"/>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(() => {
+  // Game state
+  const state = {
+    followers: 120,
+    money: 30,
+    editors: 0,
+    managers: 0,
+    algo: 0,
+    reachMult: 1,
+    lastTick: Date.now(),
+    cooldownMs: 0,
+    sponsor: null,
+  };
+
+  // Constants & definitions
+  const POST_TYPES = {
+    short: {base: 12, cost: 0, time: 1000},
+    photo: {base: 20, cost: 0, time: 1400},
+    long: {base: 40, cost: 0, time: 2200},
+  };
+
+  // Utilities
+  const $ = id => document.getElementById(id);
+  const fmt = n => (n>=1000?Math.floor(n).toLocaleString():Math.floor(n));
+
+  // Load/save
+  function save() {
+    localStorage.setItem('influencer_tycoon_v1', JSON.stringify(state));
+  }
+  function load() {
+    const s = localStorage.getItem('influencer_tycoon_v1');
+    if (s) {
+      try { Object.assign(state, JSON.parse(s)); } catch(e){}
+    }
+  }
+
+  // Apply algorithm slider
+  $('algo').addEventListener('input', e => {
+    state.algo = parseInt(e.target.value);
+    computeReach();
+    render();
+    save();
+  });
+
+  function computeReach(){
+    // each algorithm point gives +12.5% reach
+    state.reachMult = 1 + state.algo * 0.125;
+  }
+
+  // Post action
+  $('postBtn').addEventListener('click', () => {
+    if (state.cooldownMs > 0) return;
+    const t = $('postType').value;
+    const def = POST_TYPES[t];
+    // calculate result influenced by reach, managers, and randomness
+    const base = def.base * (1 + Math.random()*0.25);
+    const managerBoost = 1 + state.managers * 0.15;
+    const editorsBoost = 1 + state.editors * 0.08;
+    const gain = Math.max(1, Math.floor(base * state.reachMult * managerBoost * editorsBoost));
+    state.followers += gain;
+    log(`Posted a ${t} — gained ${gain} followers`);
+    state.cooldownMs = def.time;
+    // small chance for money via virality
+    if (Math.random() < 0.08 + state.managers*0.02) {
+      const cash = Math.floor(5 + Math.random()*25 + state.managers*5);
+      state.money += cash;
+      log(`Viral boost! Earned $${cash}`);
+    }
+    save();
+    render();
+  });
+
+  // Hiring
+  $('hireEditor').addEventListener('click', () => {
+    const cost = Math.floor(50 * Math.pow(1.4, state.editors));
+    if (state.money < cost) { log("Not enough money to hire Editor"); return; }
+    state.money -= cost; state.editors++;
+    log("Hired an Editor");
+    $('editorCost').textContent = Math.floor(50 * Math.pow(1.4, state.editors));
+    save(); render();
+  });
+  $('hireManager').addEventListener('click', () => {
+    const cost = Math.floor(200 * Math.pow(1.8, state.managers));
+    if (state.money < cost) { log("Not enough money to hire Manager"); return; }
+    state.money -= cost; state.managers++;
+    log("Hired a Manager");
+    $('managerCost').textContent = Math.floor(200 * Math.pow(1.8, state.managers));
+    save(); render();
+  });
+
+  // Sponsors
+  function maybeGenerateSponsor(){
+    if (state.sponsor) return;
+    if (Math.random() < 0.12 + state.managers*0.05) {
+      const basePay = Math.floor(40 + Math.random()*160 + state.managers*60);
+      const req = Math.floor(200 + Math.random()*600);
+      state.sponsor = {pay: basePay, req};
+      $('sponsorOffer').textContent = `Offer: $${basePay} for ${req}+ followers`;
+      $('acceptSponsor').classList.remove('disabled');
+    }
+  }
+  $('acceptSponsor').addEventListener('click', () => {
+    if (!state.sponsor) return;
+    if (state.followers >= state.sponsor.req) {
+      state.money += state.sponsor.pay;
+      log(`Accepted sponsor — +$${state.sponsor.pay}`);
+      state.sponsor = null;
+      $('sponsorOffer').textContent = 'No offers';
+      $('acceptSponsor').classList.add('disabled');
+      save(); render();
+    } else {
+      log('Too few followers for that sponsor');
+    }
+  });
+
+  // Logging
+  function log(text){
+    const el = $('log');
+    const ts = new Date().toLocaleTimeString();
+    el.innerHTML = `<div>[${ts}] ${text}</div>` + el.innerHTML;
+  }
+
+  // Game tick
+  function tick(){
+    const now = Date.now();
+    const dt = Math.min(1000, now - state.lastTick);
+    state.lastTick = now;
+
+    // passive followers from editors
+    const passive = state.editors * 0.6 * (dt/1000);
+    state.followers += passive;
+
+    // cooldown decrement
+    state.cooldownMs = Math.max(0, state.cooldownMs - dt);
+
+    // small passive money from managers
+    state.money += state.managers * 0.12 * (dt/1000);
+
+    // periodic sponsor generation
+    if (Math.random() < 0.06 * (dt/1000)) maybeGenerateSponsor();
+
+    save();
+    render();
+  }
+
+  // Render UI
+  function render(){
+    $('followers').textContent = fmt(state.followers);
+    $('money').textContent = '$' + Math.floor(state.money);
+    $('editors').textContent = state.editors;
+    $('managers').textContent = state.managers;
+    $('fps').textContent = (state.editors*0.6).toFixed(2);
+    $('reach').textContent = state.reachMult.toFixed(2);
+    $('algo').value = state.algo;
+    $('cooldown').textContent = state.cooldownMs>0 ? (Math.ceil(state.cooldownMs/1000) + 's') : 'Ready';
+    // disable/enable buttons based on money
+    const ecost = Math.floor(50 * Math.pow(1.4, state.editors));
+    const mcost = Math.floor(200 * Math.pow(1.8, state.managers));
+    $('editorCost').textContent = ecost;
+    $('managerCost').textContent = mcost;
+    $('hireEditor').classList.toggle('disabled', state.money < ecost);
+    $('hireManager').classList.toggle('disabled', state.money < mcost);
+    $('acceptSponsor').classList.toggle('disabled', !state.sponsor);
+  }
+
+  // Reset/export/import
+  $('reset').addEventListener('click', () => {
+    if (!confirm('Reset your progress?')) return;
+    localStorage.removeItem('influencer_tycoon_v1');
+    location.reload();
+  });
+
+  $('exportBtn').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(state)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'influencer_save.json'; a.click();
+    URL.revokeObjectURL(url);
+  });
+  $('importBtn').addEventListener('click', () => $('importFile').click());
+  $('importFile').addEventListener('change', (ev) => {
+    const f = ev.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = () => {
+      try { Object.assign(state, JSON.parse(r.result)); save(); render(); log('Imported save'); }
+      catch(e){ alert('Invalid file'); }
+    };
+    r.readAsText(f);
+  });
+
+  // initialize
+  load();
+  computeReach();
+  render();
+  setInterval(tick, 1000);
+
+  // initial help logs
+  if (!localStorage.getItem('influencer_tycoon_v1')) {
+    log('Welcome! You start with a handful of followers. Post to grow. Hire Editors for passive growth and Managers for better deals.');
+  }
+})();
+</script>
+</body>
+</html>
+"""
+
+# Save the HTML file
+out_dir = Path('/mnt/data')
+out_dir.mkdir(parents=True, exist_ok=True)
+html_path = out_dir / 'influencer_tycoon.html'
+html_path.write_text(html_code, encoding='utf-8')
+
+# Prepare image rendering of the code
+img_path = out_dir / 'influencer_tycoon_code.png'
+# choose a monospace font if available, else default
+try:
+    font = ImageFont.truetype("DejaVuSansMono.ttf", 14)
+except:
+    font = ImageFont.load_default()
+
+# Wrap text to fit image width
+max_width = 1400
+margin = 24
+line_height = font.getsize("A")[1] + 4
+# split lines and wrap long lines
+lines = []
+for raw_line in html_code.strip('\n').split('\n'):
+    wrapped = textwrap.wrap(raw_line, width=120) or ['']
+    lines.extend(wrapped)
+
+img_height = margin*2 + line_height * len(lines)
+img = Image.new('RGB', (max_width, img_height), color=(10,16,28))
+draw = ImageDraw.Draw(img)
+# draw header
+draw.rectangle([0,0,max_width,56], fill=(20,30,50))
+title_font = font
+draw.text((margin, 12), "Influencer Tycoon — Full HTML/JS Source", font=title_font, fill=(240,240,245))
+# draw code lines
+y = 56
+# background for code area
+draw.rectangle([margin-8, y-8, max_width-margin+8, img_height-margin+8], fill=(6,10,18))
+y = y
+for i, line in enumerate(lines):
+    draw.text((margin, y + i*line_height), line, font=font, fill=(200,220,235))
+# Save image
+img.save(img_path)
+
+# Return outputs
+print("Wrote HTML to:", html_path.as_posix())
+print("Wrote code image to:", img_path.as_posix())
+
+# Provide file paths for the user
+html_path.as_posix(), img_path.as_posix()
+

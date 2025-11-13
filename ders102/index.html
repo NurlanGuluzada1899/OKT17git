@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="box">
+        <h1>Geforce 20</h1>
+        <ul>
+            <li id="GTX">Gtx 1650</li>
+            <li>Gtx 1660</li>
+            <li class="primary">Gtx 1660 ti</li>
+            <li>Rtx 2070</li>
+            <li>Rtx2080</li>
+            <li class="primary">Rtx 2080 ti</li>
+        </ul>
+    </div>
+
+    <script>
+        //1t
+        let Geforce = document.querySelector("h1");
+        Geforce.remove();
+        //2t
+        let list = document.querySelector("ul");
+        let create = document.createElement("li");
+        create.textContent = "Titan RTX";
+        list.append(create);
+        //3t
+        let head = document.createElement("h1");
+        head.textContent = "Geforce 20 Series";
+        let box = document.querySelector(".box");
+        box.prepend(head);
+        //4t
+        let primary = document.querySelectorAll(".primary");
+        primary.forEach(item => {
+            item.style.backgroundColor = "#ebebeb";
+        });
+        //5
+        let prim = document.querySelectorAll(".primary");
+        console.log(prim)
+    </script>
+
+</body>
+
+</html>

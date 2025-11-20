@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 600px;
+        }
+
+        .todolist-container {
+            width: 100%;
+            border: 2px solid #888;
+            min-height: 400px;
+            background: #ffffff;
+        }
+
+        .add-items {
+            background: #0e6a00;
+            padding: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-items input {
+            flex: 1;
+            height: 30px;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        .add-items button {
+            width: 70px;
+            background: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #todo-list {
+            list-style: none;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .item {
+            background: #c9ffe7;
+            padding: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .icons button {
+            border: none;
+            cursor: pointer;
+            padding: 5px 8px;
+            font-size: 16px;
+        }
+
+        .check {
+            background: #00c851;
+            color: white;
+        }
+
+        .delete {
+            background: red;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="todolist-container">
+
+            <div class="add-items">
+                <input type="text" id="todoInput" placeholder="Write something..." />
+                <button id="addBtn">Add</button>
+            </div>
+
+            <ul id="todo-list">
+                <li class="item">
+                    <span>Todo list practice</span>
+
+                    <div class="icons">
+                        <button class="check" onclick="checkItem(this)">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+
+                        <button class="delete" onclick="removeItem(this)">
+                            <i class="fa-sharp fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+<script>
+    document.getElementById("addBtn").addEventListener("click", addItem);
+
+    function addItem() {
+        let newItem = document.getElementById("todoInput");
+        let list = document.getElementById("todo-list");
+
+        if (newItem.value.trim() === "") return; 
+
+        list.innerHTML += `
+            <li class="item">
+                <span>${newItem.value}</span>
+                <div class="icons">
+                    <button class="check" onclick="checkItem(this)">
+                        <i class="fa-solid fa-check"></i>
+                    </button>
+                    <button class="delete" onclick="removeItem(this)">
+                        <i class="fa-sharp fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </li>
+        `;
+
+        newItem.value = "";
+    }
+
+    function checkItem(btn) {
+        let text = btn.closest(".item").querySelector("span");
+        text.style.textDecoration = "line-through";
+    }
+
+    function removeItem(btn) {
+        btn.closest(".item").remove();
+    }
+</script>
+</body>
+
+</html>

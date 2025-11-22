@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="gefor">
+        <h1>Geforce 20</h1>
+        <ul>
+            <li id="GTX">Gtx 1650</li>
+            <li>Gtx 1660</li>
+            <li class="primary">Gtx 1660 ti</li>
+            <li>Rtx 2070</li>
+            <li>Rtx2080</li>
+            <li class="primary">Rtx 2080 ti</li>
+        </ul>
+    </div>
+    <script>
+        let Geforce = document.querySelector("h1")
+        Geforce.remove()
+
+
+        let  doc = document.querySelector("ul");
+        let sel = document.createElement("li");
+        sel.innerHTML = "Titan RTX";
+       doc.append(sel);
+    </script>
+</body>
+</html>

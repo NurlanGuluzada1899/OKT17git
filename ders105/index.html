@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="az">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Document</title>
+    <style>
+        .item {
+            padding: 6px 8px;
+            display: list-item;
+        }
+
+        .primary {
+            font-weight: bold;
+        }
+
+        .secondary {
+            color: gray;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>GeForce 20</h1>
+    <ul id="one">
+        <li>GTX 1650</li>
+        <li>GTX 1660</li>
+        <li class="primary">GTX 1660 Ti</li>
+        <li>RTX 2070</li>
+        <li>RTX 2080</li>
+        <li class="primary">RTX 2080 Ti</li>
+    </ul>
+    <script>
+        let items = document.querySelectorAll('#one li');
+        items.forEach(li => {
+            li.classList.add('item');
+            if (li.classList.contains('primary')) {
+                li.classList.add('secondary');
+            }
+        });
+    
+ 
+    let ul = document.getElementById('one');
+
+    console.log("Əsas element:", ul);                
+    console.log("Əvvəlki element:", ul.previousElementSibling);
+
+    console.log("Törəyən elementləri:", ul.children); 
+
+    console.log("Birinci törəyən element:", ul.firstElementChild);
+
+    </script>
+</body>
+
+</html>
